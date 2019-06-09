@@ -1,4 +1,6 @@
 #setwd("~/EARIN-Data-Mining-project")
+#install.packages("dplyr")
+#install.packages("ggplot2")
 
 # load dataset
 data <- read.csv(file="gun-violence-data_01-2013_03-2018.csv", header=TRUE)
@@ -10,7 +12,6 @@ to_remove <- c("incident_id", "address", "incident_url", "source_url", "incident
         "state_senate_district")
 
 # dropping unnecessary attributes
-#install.packages("dplyr")
 library(dplyr)
 data <- select(data, -to_remove)
 
@@ -24,7 +25,7 @@ data <- data %>% filter(as.Date(date) > start)
 # number of gun violence occurrences
 gun_v_occurrences <- data %>% group_by(date) %>% summarise(counts=n())
 
-#install.packages("ggplot2")
+
 library(ggplot2)
 ggplot(data=gun_v_occurrences, aes(as.Date(date))) +
   geom_point(alpha=1/10, aes(y=gun_v_occurrences$counts)) +
